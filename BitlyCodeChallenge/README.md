@@ -11,7 +11,6 @@ The (unzipped) data file is located at ./bitly/data/challenge.json
 
 ## To Install:
 The code is located on GitHub: https://github.com/hartee/BitlySubmission.git
-
 ---
 
 ## Design
