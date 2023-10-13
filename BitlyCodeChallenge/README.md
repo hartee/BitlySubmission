@@ -7,6 +7,8 @@
 ## Dependencies:
 Python version: python 3x
 
+The (unzipped) data file is located at ./bitly/data/challenge.json
+
 ## To Install:
 The code is located on GitHub: https://github.com/hartee/bitly-coding-challenge.git
 
