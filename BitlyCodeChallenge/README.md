@@ -85,12 +85,12 @@ that certain email domains are highly correlated with anomalies we might blackli
 
 ### Ex: Running the code:
 ```sh
-% git clone https://github.com/hartee/bitly-coding-challenge.git
+% git clone https://github.com/hartee/BitlySubmission.git
 ```
-Cloning into 'bitly-coding-challenge'...
+Cloning into 'BitlySubmission'...
 ...
 ```sh
-% cd bitly-coding-challenge/BitlyCodeChallenge
+% cd BitlySubmission/BitlyCodeChallenge
 % ls
 ```
 build
