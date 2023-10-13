@@ -3,17 +3,25 @@ from bitly.event_validator import *
 
 class ActionValidator(EventValidator):
     """
+    This validator looks at the 'action' attribute
 
-    Anomaly reasoning:
-    1) if the action is sign_up_finish_api
+    There are two reasons that an event might be considered suspicious due to
+    this attribute.  First is if it is missing.  This should never happen and
+    wasn't seen in the data.
+
+    The other is is the action is "sign_up_finish_api".  I don't know if this
+    is actually signal that the event is suspicious for sure, so I give it a
+    very low score.
     """
-
     # class constants
     ACTION_MISSING_SCORE = 1.0
     ACTION_IS_API_SCORE = 0.1
 
     def validate(self, event):
-        # get email from event
+        """
+        Load the event (a JSON block) and test the 'action' attribute,
+        logging an alert if necessary.
+        """
         data = json.loads(event)
         try:
             action = data['action']

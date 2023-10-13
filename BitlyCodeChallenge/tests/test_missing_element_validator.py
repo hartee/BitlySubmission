@@ -81,7 +81,7 @@ class TestMissingElementValidator(unittest.TestCase):
         self.VALIDATOR.validate(self.MISSING_POSTAL_CODE_EVENT)
         self.assertEqual(self.LOGGER.get_alerts()[0],f"MissingElementValidator: missing postal_code. Score +{MissingElementValidator.POSTAL_CODE_MISSING_SCORE}")
 
-    def test_validate_when_city_is_empty_logs_alert(self):
+    def test_validate_when_postal_code_is_empty_logs_alert(self):
         self.LOGGER.clear_alerts()
         self.VALIDATOR.validate(self.EMPTY_POSTAL_CODE_EVENT)
         self.assertEqual(self.LOGGER.get_alerts()[0],f"MissingElementValidator: empty postal_code. Score +{MissingElementValidator.POSTAL_CODE_MISSING_SCORE}")

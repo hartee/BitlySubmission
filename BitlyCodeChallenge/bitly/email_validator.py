@@ -4,20 +4,20 @@ from bitly.event_validator import *
 
 class EmailValidator(EventValidator):
     """
+    This validator looks at the 'email' attribute
 
-    Anomaly reasoning:
-    1) We have a white list and a black list of email domains
-    2) if the domain is all numeric then it is SUSPECT
-    TODO: 3) if the domain starts with "admin" it is SUSPECT
+    If the email is missing or malformed, that is suspect.
+    Also, if the email is on a blacklist.
+
+    My logic here is that a malformed email is more suspect than a missing
+    one.
     """
-
-    # class constants
     WHITE_LIST = os.path.join(os.path.dirname(__file__), "data", "whitelist.txt")
     BLACK_LIST = os.path.join(os.path.dirname(__file__), "data", "blacklist.txt")
 
-    EMAIL_MISSING_SCORE = .30
-    EMAIL_DOMAIN_BLACKLIST_SCORE = .80
-    EMAIL_MALFORMED_SCORE = .40
+    EMAIL_MISSING_SCORE = .1
+    EMAIL_DOMAIN_BLACKLIST_SCORE = .8
+    EMAIL_MALFORMED_SCORE = .4
 
 
     def __init__(self, logger, black_list_fn, white_list_fn):
@@ -35,19 +35,26 @@ class EmailValidator(EventValidator):
             for line in file:
                 self.white_list.append(line.strip())
 
+
     def extract_domain(self,email):
-        # Split the email address at the "@" symbol
+        """
+        Split the email address at the "@" symbol
+        and return the domain, or None.
+        """
         parts = email.split("@")
 
-        # Check if the email address has the "@" symbol
         if len(parts) == 2:
             domain = parts[1]
             return domain
         else:
-            return None  # Invalid email address format
+            return None
+
 
     def validate(self, event):
-        # get email from event
+        """
+        Load the event (a JSON block) and test the 'email' attribute,
+        logging an alert if necessary.
+        """
         data = json.loads(event)
         try:
             email = data['email']

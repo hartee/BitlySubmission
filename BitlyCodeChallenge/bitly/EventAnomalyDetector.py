@@ -9,8 +9,20 @@ from bitly.email_validator import EmailValidator
 
 
 class EventAnomalyDetector:
-    #class constants
-    EVENT_THRESHOLD = .90
+    """
+    This is the main class of the project.
+
+    The detector creates a set of validators, then reads each event from an
+    ingester, passing the event through each of the validators.
+
+    Each validator uses its own logic to determine if an event is suspect.  If
+    so, it adds an alert and score to a common logger.
+
+    Once all of the validators have had their say, the detector looks to see if
+    the accumulated score for an event is greater than EVENT_THRESHOLD, if so,
+    it then displays the alerts, the scores, and reports the anomaly.
+    """
+    EVENT_THRESHOLD = 1.2
 
     def __init__(self):
         self.event_validators = []
@@ -21,30 +33,52 @@ class EventAnomalyDetector:
         self.logger = EventLogger()
 
     def add_validator(self,validator):
+        """
+        Add a new validator to the process_pipeline
+        """
         self.event_validators.append(validator)
 
     def add_event_ingester(self,ingester):
+        """
+        Define the ingester which will supply events
+        """
         self.ingester = ingester
 
     def set_logger(self,logger):
+        """
+        This sets the logger and is mainly used for testing
+        """
         self.logger = logger
 
     def process(self, event):
+        """
+        Process a single event through all the event_validators
+        """
         for vl in self.event_validators:
             vl.validate(event)
 
+
     def process_pipeline(self):
+        """
+        This runs the whole pipeline:
+
+        get an event,
+        process it through all the validators,
+        report an anomaly if found
+        """
         with self.ingester as reader:
             for event in reader.get_events():
                 self.total_events += 1
                 self.process(event)
 
+                # is this event likely an anomaly?
                 if self.logger.score_above_threshold(self.EVENT_THRESHOLD):
                     self.anomalies += 1
                     self.logger.display_alerts()
                     print(event)
                     print()
                 self.logger.clear_alerts()
+
 
     def report_results(self):
         print("---")
@@ -54,8 +88,11 @@ class EventAnomalyDetector:
         print("Total anomalies: ", self.anomalies)
 
 
-
 if __name__ == "__main__":
+    """
+    Main program entry point
+    """
+
     # create a new EventAnomolyDetector
     ead = EventAnomalyDetector()
 

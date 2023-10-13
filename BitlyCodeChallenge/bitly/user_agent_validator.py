@@ -3,19 +3,18 @@ from bitly.event_validator import *
 
 class UserAgentValidator(EventValidator):
     """
+    This validator looks at the user_agent.  Mainly we are checking if it is
+    too long as that seems to carry signal on it being suspect.  We also
+    note whether it is missing.
 
-    Anomaly reasoning:
-    1) if too long
-    2) if doesn't have the right words?
+    The length we use to determine suspect is not well researched and is the
+    result of just reviewing the sample data, so it could use some tuning love.
     """
 
-    # class constants
     USER_AGENT_SUSPICIOUS_LENGTH = 300
     USER_AGENT_SUSPICIOUS_SCORE = .80
 
-
     def validate(self, event):
-        # get email from event
         data = json.loads(event)
         try:
             user_agent = data['user_agent']

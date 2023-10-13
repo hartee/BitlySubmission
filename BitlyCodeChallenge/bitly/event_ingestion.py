@@ -1,10 +1,15 @@
 import os
 
 class FileEventIngester:
-    # class constants
+    """
+    This ingester is just a convenience class for the demo project.  In a
+    real application, the events would be provided by some kind of message
+    or event service.  Here we just use python's yield method to allow the
+    main program to read one event at a time to simulate getting them.
+    """
+
     SHORT_DATA = os.path.join(os.path.dirname(__file__), "data", "short.json")
     FULL_DATA = os.path.join(os.path.dirname(__file__), "data", "challenge.json")
-
 
     def __init__(self, filename):
         self.filename = filename
