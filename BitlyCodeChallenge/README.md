@@ -42,10 +42,10 @@ could be easily tuned and altered.
 For my logic, I'm making some assumptions about what might indicate that an event
 was likely to be anomalous.  These are discussed briefly below.
 
-Note: I collect the scores as decimal values, but ideally we would normalize the final score
+*Note: I collect the scores as decimal values, but ideally we would normalize the final score
 so that it ranged from 0 to 1.0.  What we want is to be able to set the threshold so
 that .90 would represent 90% certainty that an event was an anomaly.  As it is, we
-would have to play with the scoring to really make it useful.
+would have to play with the scoring to really make it useful.*
 
 #### Missing Elements
 I am assuming that certain attributes, when missing, are highly correlated with anomalies.
