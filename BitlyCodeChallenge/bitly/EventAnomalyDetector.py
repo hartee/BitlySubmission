@@ -23,7 +23,7 @@ class EventAnomalyDetector:
     the accumulated score for an event is greater than EVENT_THRESHOLD, if so,
     it then displays the alerts, the scores, and reports the anomaly.
     """
-    EVENT_THRESHOLD = 0
+    EVENT_THRESHOLD = 1.2
 
     def __init__(self):
         self.event_validators = []
