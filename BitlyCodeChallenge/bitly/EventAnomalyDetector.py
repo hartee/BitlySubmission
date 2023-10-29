@@ -106,7 +106,6 @@ if __name__ == "__main__":
     ead.add_validator(MissingElementValidator(ead.logger))
     ead.add_validator(UserAgentValidator(ead.logger))
     ead.add_validator(NumericElementValidator(ead.logger))
-    ead.add_validator(BaseValidator(ead.logger))
 
     # process the events
     ead.process_pipeline()
