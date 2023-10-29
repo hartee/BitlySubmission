@@ -1,5 +1,5 @@
 
-# Bitly Coding Challenge
+# Bitly Coding Challenge (v0.2)
 ## _ErikAnthony Harte - erikanthony.harte@gmail.com_
 
 ---
