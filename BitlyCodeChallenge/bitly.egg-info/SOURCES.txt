@@ -3,6 +3,7 @@ setup.py
 bitly/EventAnomalyDetector.py
 bitly/__init__.py
 bitly/action_validator.py
+bitly/base_validator.py
 bitly/email_validator.py
 bitly/event_ingestion.py
 bitly/event_validator.py

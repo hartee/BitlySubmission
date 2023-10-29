@@ -6,6 +6,7 @@ from bitly.missing_element_validator import MissingElementValidator
 from bitly.user_agent_validator import UserAgentValidator
 from bitly.numeric_element_validator import NumericElementValidator
 from bitly.email_validator import EmailValidator
+from bitly.base_validator import BaseValidator
 
 
 class EventAnomalyDetector:
@@ -105,6 +106,7 @@ if __name__ == "__main__":
     ead.add_validator(MissingElementValidator(ead.logger))
     ead.add_validator(UserAgentValidator(ead.logger))
     ead.add_validator(NumericElementValidator(ead.logger))
+    ead.add_validator(BaseValidator(ead.logger))
 
     # process the events
     ead.process_pipeline()
