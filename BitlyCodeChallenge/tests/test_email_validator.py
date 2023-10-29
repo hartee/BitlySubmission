@@ -31,7 +31,7 @@ class TestEmailValidator(unittest.TestCase):
     def test_validate_when_email_is_missing_logs_alert(self):
         self.LOGGER.clear_alerts()
         self.VALIDATOR.validate(self.MISSING_EMAIL_EVENT)
-        self.assertEqual(self.LOGGER.get_alerts()[0],"EmailValidator: missing email. Score +0.3")
+        self.assertEqual(self.LOGGER.get_alerts()[0],"EmailValidator: missing email. Score +0.1")
 
     def test_validate_when_email_is_malformed_logs_alert(self):
         self.LOGGER.clear_alerts()

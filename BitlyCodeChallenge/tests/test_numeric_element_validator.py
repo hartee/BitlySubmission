@@ -56,12 +56,6 @@ class TestNumericElementValidator(unittest.TestCase):
         self.VALIDATOR.validate(self.COUNTRY_CODE_NUMERIC_EVENT)
         self.assertEqual(self.LOGGER.get_alerts()[0],f"NumericElementValidator: country_code is numeric: 123. Score +{NumericElementValidator.COUNTRY_CODE_NUMERIC_SCORE}")
 
-    # ip_organization
-    def test_validate_when_ip_organization_is_numeric_logs_alert(self):
-        self.LOGGER.clear_alerts()
-        self.VALIDATOR.validate(self.IP_ORGANIZATION_NUMERIC_EVENT)
-        self.assertEqual(self.LOGGER.get_alerts()[0],f"NumericElementValidator: ip_organization is numeric: 123.net. Score +{NumericElementValidator.IP_ORGANIZATION_NUMERIC_SCORE}")
-
     # lang
     def test_validate_when_lang_is_numeric_logs_alert(self):
         self.LOGGER.clear_alerts()

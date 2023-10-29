@@ -50,4 +50,4 @@ class EventValidator():
         """
         All validators must override this method
         """
-        pass
+        raise NotImplementedError("Subclasses must implement validate")
