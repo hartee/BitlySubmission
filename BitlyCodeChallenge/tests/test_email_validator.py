@@ -15,7 +15,8 @@ class TestEmailValidator(unittest.TestCase):
     VALID_EMAIL_EVENT = '{"email":"myname@erikanthony.net"}'
 
     LOGGER = EventLogger()
-    VALIDATOR = EmailValidator(LOGGER, BLACK_LIST, WHITE_LIST)
+    VALIDATOR = EmailValidator(BLACK_LIST, WHITE_LIST)
+    VALIDATOR.set_logger(LOGGER)
 
 
     def test_extract_domain_when_email_is_valid_succeeds(self):

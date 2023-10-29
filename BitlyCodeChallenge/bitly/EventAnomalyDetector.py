@@ -23,7 +23,7 @@ class EventAnomalyDetector:
     the accumulated score for an event is greater than EVENT_THRESHOLD, if so,
     it then displays the alerts, the scores, and reports the anomaly.
     """
-    EVENT_THRESHOLD = 1.2
+    EVENT_THRESHOLD = 0
 
     def __init__(self):
         self.event_validators = []
@@ -35,21 +35,17 @@ class EventAnomalyDetector:
 
     def add_validator(self,validator):
         """
-        Add a new validator to the process_pipeline
+        Add a new validator to the process_pipeline,
+        and set it's logger
         """
         self.event_validators.append(validator)
+        validator.set_logger(self.logger)
 
     def add_event_ingester(self,ingester):
         """
         Define the ingester which will supply events
         """
         self.ingester = ingester
-
-    def set_logger(self,logger):
-        """
-        This sets the logger and is mainly used for testing
-        """
-        self.logger = logger
 
     def process(self, event):
         """
@@ -98,14 +94,14 @@ if __name__ == "__main__":
     ead = EventAnomalyDetector()
 
     # add EventIngester
-    ead.add_event_ingester(FileEventIngester(FileEventIngester.FULL_DATA))
+    ead.add_event_ingester(FileEventIngester(FileEventIngester.SHORT_DATA))
 
     # add validators to the pipeline
-    ead.add_validator(EmailValidator(ead.logger, EmailValidator.BLACK_LIST, EmailValidator.WHITE_LIST))
-    ead.add_validator(ActionValidator(ead.logger))
-    ead.add_validator(MissingElementValidator(ead.logger))
-    ead.add_validator(UserAgentValidator(ead.logger))
-    ead.add_validator(NumericElementValidator(ead.logger))
+    ead.add_validator(EmailValidator(EmailValidator.BLACK_LIST, EmailValidator.WHITE_LIST))
+    ead.add_validator(ActionValidator())
+    ead.add_validator(MissingElementValidator())
+    ead.add_validator(UserAgentValidator())
+    ead.add_validator(NumericElementValidator())
 
     # process the events
     ead.process_pipeline()

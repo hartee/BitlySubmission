@@ -19,7 +19,8 @@ class TestNumericElementValidator(unittest.TestCase):
                     "ip_organization":"foo","lang":"foo","network_name":"foo","region":"foo"}'
 
     LOGGER = EventLogger()
-    VALIDATOR = NumericElementValidator(LOGGER)
+    VALIDATOR = NumericElementValidator()
+    VALIDATOR.set_logger(LOGGER)
 
 
     def test_extract_name_when_ip_domain_is_valid_succeeds(self):

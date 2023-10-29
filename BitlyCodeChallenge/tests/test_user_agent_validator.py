@@ -19,7 +19,8 @@ class TestActionValidator(unittest.TestCase):
     VALID_USER_AGENT_EVENT = '{"user_agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}'
 
     LOGGER = EventLogger()
-    VALIDATOR = UserAgentValidator(LOGGER)
+    VALIDATOR = UserAgentValidator()
+    VALIDATOR.set_logger(LOGGER)
 
     def test_validate_when_user_agent_is_missing_logs_alert(self):
         self.LOGGER.clear_alerts()

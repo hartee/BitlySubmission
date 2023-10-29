@@ -42,8 +42,10 @@ class EventValidator():
     """
     Base class for validators.
     """
+    def __init__(self):
+        self.logger = None
 
-    def __init__(self,logger):
+    def set_logger(self, logger):
         self.logger = logger
 
     def validate(self, event):

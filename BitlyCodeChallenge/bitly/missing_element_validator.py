@@ -17,8 +17,8 @@ class MissingElementValidator(EventValidator):
     NETWORK_NAME_MISSING_SCORE = 0.75
     REGION_MISSING_SCORE = 0.50
 
-    def __init__(self,logger):
-        super().__init__(logger)
+    def __init__(self):
+        self.logger = None
         self.missing_fields = {}
         self.missing_fields['city'] = self.CITY_MISSING_SCORE
         self.missing_fields['ip_domain'] = self.IP_DOMAIN_MISSING_SCORE
@@ -39,8 +39,10 @@ class MissingElementValidator(EventValidator):
             try:
                 element = data[field]
                 if element == '':
-                    self.logger.add_alert(f"MissingElementValidator: empty {field}. Score +{self.missing_fields[field]}", self.missing_fields[field])
+                    if (self.logger):
+                        self.logger.add_alert(f"MissingElementValidator: empty {field}. Score +{self.missing_fields[field]}", self.missing_fields[field])
 
             except KeyError as e:
-                self.logger.add_alert(f"MissingElementValidator: missing {field}. Score +{self.missing_fields[field]}", self.missing_fields[field])
+                if (self.logger):
+                    self.logger.add_alert(f"MissingElementValidator: missing {field}. Score +{self.missing_fields[field]}", self.missing_fields[field])
             continue

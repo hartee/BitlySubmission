@@ -18,8 +18,8 @@ class NumericElementValidator(EventValidator):
     EMAIL_NUMERIC_SCORE = .1
 
 
-    def __init__(self,logger):
-        super().__init__(logger)
+    def __init__(self):
+        self.logger = None
         self.numeric_fields = {}
         self.numeric_fields['city'] = self.CITY_NUMERIC_SCORE
         self.numeric_fields['ip_domain'] = self.IP_DOMAIN_NUMERIC_SCORE
@@ -52,7 +52,8 @@ class NumericElementValidator(EventValidator):
                 else:
                     value = element
                 if str(value).isdigit():
-                    self.logger.add_alert(f"NumericElementValidator: {field} is numeric: {element}. Score +{self.numeric_fields[field]}", self.numeric_fields[field])
+                    if (self.logger):
+                        self.logger.add_alert(f"NumericElementValidator: {field} is numeric: {element}. Score +{self.numeric_fields[field]}", self.numeric_fields[field])
 
             except KeyError as e:
                 # this validator doesn't care if the attribute is present or not

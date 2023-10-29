@@ -20,8 +20,7 @@ class EmailValidator(EventValidator):
     EMAIL_MALFORMED_SCORE = .4
 
 
-    def __init__(self, logger, black_list_fn, white_list_fn):
-        super().__init__(logger)
+    def __init__(self, black_list_fn, white_list_fn):
         self.black_list_fn = black_list_fn
         self.white_list_fn = white_list_fn
         self.black_list = []
@@ -54,6 +53,10 @@ class EmailValidator(EventValidator):
         """
         Load the event (a JSON block) and test the 'email' attribute,
         logging an alert if necessary.
+
+        NOTE: Perhaps it would be cleaner to test for the logger first and
+        just avoid the other checks?  But we might do something else than log
+        the alert...
         """
         data = json.loads(event)
         try:
@@ -61,13 +64,16 @@ class EmailValidator(EventValidator):
         except KeyError as e:
             email = None
             # missing email is an alert
-            self.logger.add_alert(f"EmailValidator: missing email. Score +{self.EMAIL_MISSING_SCORE}", self.EMAIL_MISSING_SCORE)
+            if (self.logger):
+                self.logger.add_alert(f"EmailValidator: missing email. Score +{self.EMAIL_MISSING_SCORE}", self.EMAIL_MISSING_SCORE)
             return
 
         email_domain = self.extract_domain(email)
         if email_domain is None:
-            self.logger.add_alert(f"EmailValidator: malformed email ({email}). Score +{self.EMAIL_MALFORMED_SCORE}", self.EMAIL_MALFORMED_SCORE)
+            if (self.logger):
+                self.logger.add_alert(f"EmailValidator: malformed email ({email}). Score +{self.EMAIL_MALFORMED_SCORE}", self.EMAIL_MALFORMED_SCORE)
         elif email_domain in self.white_list:
             return
         elif email_domain in self.black_list:
-            self.logger.add_alert(f"EmailValidator: email domain ({email_domain}) is blacklisted. Score +{self.EMAIL_DOMAIN_BLACKLIST_SCORE}", self.EMAIL_DOMAIN_BLACKLIST_SCORE)
+            if (self.logger):
+                self.logger.add_alert(f"EmailValidator: email domain ({email_domain}) is blacklisted. Score +{self.EMAIL_DOMAIN_BLACKLIST_SCORE}", self.EMAIL_DOMAIN_BLACKLIST_SCORE)

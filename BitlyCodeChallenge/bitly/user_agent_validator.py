@@ -19,6 +19,8 @@ class UserAgentValidator(EventValidator):
         try:
             user_agent = data['user_agent']
             if len(user_agent) > self.USER_AGENT_SUSPICIOUS_LENGTH:
-                self.logger.add_alert(f"UserAgentValidator: user_agent suspiciously long. Score +{self.USER_AGENT_SUSPICIOUS_SCORE}", self.USER_AGENT_SUSPICIOUS_SCORE)
+                if (self.logger):
+                    self.logger.add_alert(f"UserAgentValidator: user_agent suspiciously long. Score +{self.USER_AGENT_SUSPICIOUS_SCORE}", self.USER_AGENT_SUSPICIOUS_SCORE)
         except KeyError as e:
-            self.logger.add_alert(f"UserAgentValidator: missing user_agent. Score +{self.USER_AGENT_SUSPICIOUS_SCORE}", self.USER_AGENT_SUSPICIOUS_SCORE)
+            if (self.logger):
+                self.logger.add_alert(f"UserAgentValidator: missing user_agent. Score +{self.USER_AGENT_SUSPICIOUS_SCORE}", self.USER_AGENT_SUSPICIOUS_SCORE)

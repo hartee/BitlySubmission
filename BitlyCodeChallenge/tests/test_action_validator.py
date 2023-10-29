@@ -10,7 +10,8 @@ class TestActionValidator(unittest.TestCase):
     VALID_ACTION_EVENT = '{"action":"sign_up_finish_google"}'
 
     LOGGER = EventLogger()
-    VALIDATOR = ActionValidator(LOGGER)
+    VALIDATOR = ActionValidator()
+    VALIDATOR.set_logger(LOGGER)
 
     def test_validate_when_action_is_missing_logs_alert(self):
         self.LOGGER.clear_alerts()

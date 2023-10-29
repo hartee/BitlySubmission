@@ -51,7 +51,8 @@ class TestMissingElementValidator(unittest.TestCase):
 
 
     LOGGER = EventLogger()
-    VALIDATOR = MissingElementValidator(LOGGER)
+    VALIDATOR = MissingElementValidator()
+    VALIDATOR.set_logger(LOGGER)
 
     # city
     def test_validate_when_city_is_missing_logs_alert(self):
