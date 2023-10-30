@@ -1,6 +1,15 @@
 
-# Bitly Coding Challenge (v0.2)
+# Bitly Coding Challenge (v0.1)
 ## _ErikAnthony Harte - erikanthony.harte@gmail.com_
+
+---
+
+## Change Log
+v0 - original BitlySubmission  
+
+v0.1 - Oct 29
+  - logger is no longer passed via constructor
+  - EmailValidator uses regex to validate
 
 ---
 
