@@ -29,6 +29,20 @@ class TestEmailValidator(unittest.TestCase):
         result = self.VALIDATOR.extract_domain(email)
         self.assertEqual(result,None)
 
+    def test_is_valid_email_when_email_is_valid_succeeds(self):
+        email = "valid@gmail.com"
+        email_with_subdomain = "valid@subdomain.dummy.co.ru"
+        self.assertTrue(self.VALIDATOR.is_valid_email(email))
+        self.assertTrue(self.VALIDATOR.is_valid_email(email_with_subdomain))
+
+    def test_is_valid_email_when_email_is_not_valid_fails(self):
+        email = "valid.com"
+        email_with_bad_characters = "valid$.com"
+        email_with_bad_subdomain = "valid@subdomain.dummy.co.99"
+        self.assertFalse(self.VALIDATOR.is_valid_email(email))
+        self.assertFalse(self.VALIDATOR.is_valid_email(email_with_bad_characters))
+        self.assertFalse(self.VALIDATOR.is_valid_email(email_with_bad_subdomain))
+
     def test_validate_when_email_is_missing_logs_alert(self):
         self.LOGGER.clear_alerts()
         self.VALIDATOR.validate(self.MISSING_EMAIL_EVENT)

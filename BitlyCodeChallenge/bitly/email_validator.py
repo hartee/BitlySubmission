@@ -1,5 +1,6 @@
 import json
 import os
+import re
 from bitly.event_validator import *
 
 class EmailValidator(EventValidator):
@@ -47,6 +48,18 @@ class EmailValidator(EventValidator):
             return domain
         else:
             return None
+
+    def is_valid_email(self, email):
+        """
+        Use a regular expression to determine if an email is
+        suspicious
+        """
+        pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+
+        if re.match(pattern,email):
+            return True
+        else:
+            return False
 
 
     def validate(self, event):
