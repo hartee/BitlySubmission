@@ -29,19 +29,20 @@ class TestEventLogger(unittest.TestCase):
         logger.clear_alerts()
         self.assertEqual(len(logger.alerts),0)
 
-        '''
-    def test_add_alert_type_succeeds(self):
+    def test_add_alert_counts_by_type(self):
         logger = EventLogger()
 
         logger.add_alert("EmailAlert: test alert 1", 0.25)
         logger.add_alert("UserAgentAlert: Test alert 2", 0.25)
-
+        logger.update_alerts_by_type()
+        
         logger.clear_alerts()
-        self.assertEqual(len(logger.alert_types),2)
-        self.assertTrue("EmailAlert" in logger.alert_types)
+
+        self.assertEqual(len(logger.alerts_by_type),2)
+        self.assertTrue("EmailAlert" in logger.alerts_by_type)
 
         logger.display_alerts_by_type()
-        '''
+
 
 if __name__ == "__main__":
     unittest.main()
