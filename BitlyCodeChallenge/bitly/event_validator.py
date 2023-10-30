@@ -11,7 +11,7 @@ class EventLogger():
 
     def __init__(self):
         self.alerts = []
-        self.alert_types = {}
+        self.alerts_by_type = {}
         self.total_events = 0
         self.anomalies = 0
         self.score = 0.0
@@ -21,17 +21,11 @@ class EventLogger():
         self.anomalies += 1
         self.score += score
 
-        alert_type = alert.split(":",maxsplit=1)[0]
-        if alert_type in self.alert_types:
-            self.alert_types[alert_type] += 1
-        else:
-            self.alert_types[alert_type] = 1
-
     def add_alert_type(self,alert_type,alert,score):
-        if alert_type in self.alert_types:
-            self.alert_types[alert_type] += 1
+        if alert_type in self.alerts_by_type:
+            self.alerts_by_type[alert_type] += 1
         else:
-            self.alert_types[alert_type] = 1
+            self.alerts_by_type[alert_type] = 1
         self.alerts.append(alert)
         self.anomalies += 1
         self.score += score
@@ -47,9 +41,19 @@ class EventLogger():
             print()
 
     def display_alerts_by_type(self):
-        if len(self.alert_types) != 0:
-            for alert, count in self.alert_types.items():
-                print(alert, count)
+        for alert, count in self.alerts_by_type.items():
+            print(alert, count)
+
+    def update_alerts_by_type(self):
+        types = set()
+        for alert in self.alerts:
+            types.add(alert.split(':', maxsplit= 1)[0])
+
+        for type in types:
+            if type in self.alerts_by_type:
+                self.alerts_by_type[type] += 1
+            else:
+                self.alerts_by_type[type] = 1
 
     def clear_alerts(self):
         self.alerts = []
@@ -57,6 +61,9 @@ class EventLogger():
 
     def get_alerts(self):
         return self.alerts
+
+    def get_alerts_by_type(self):
+        return self.alerts_by_type
 
 
 class EventValidator():
@@ -68,6 +75,9 @@ class EventValidator():
 
     def set_logger(self, logger):
         self.logger = logger
+
+    def self_report(self):
+        pass
 
     def validate(self, event):
         """

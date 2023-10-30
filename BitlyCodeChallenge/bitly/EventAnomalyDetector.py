@@ -7,6 +7,7 @@ from bitly.user_agent_validator import UserAgentValidator
 from bitly.numeric_element_validator import NumericElementValidator
 from bitly.email_validator import EmailValidator
 from bitly.base_validator import BaseValidator
+from bitly.country_validator import CountryValidator
 
 
 class EventAnomalyDetector:
@@ -72,9 +73,12 @@ class EventAnomalyDetector:
                 if self.logger.score_above_threshold(self.EVENT_THRESHOLD):
                     self.anomalies += 1
                     self.logger.display_alerts()
+                    self.logger.update_alerts_by_type()
                     print(event)
                     print()
                 self.logger.clear_alerts()
+
+
 
 
     def report_results(self):
@@ -87,6 +91,18 @@ class EventAnomalyDetector:
         print("Total anomalies by type:")
         self.logger.display_alerts_by_type()
 
+        # report additional lerts by validator
+        print("---")
+        print("Reports by individual validators")
+        self.validator_report()
+
+
+    def validator_report(self):
+        """
+        Have each validator report
+        """
+        for vl in self.event_validators:
+            vl.self_report()
 
 if __name__ == "__main__":
     """
@@ -97,7 +113,7 @@ if __name__ == "__main__":
     ead = EventAnomalyDetector()
 
     # add EventIngester
-    ead.add_event_ingester(FileEventIngester(FileEventIngester.SHORT_DATA))
+    ead.add_event_ingester(FileEventIngester(FileEventIngester.FULL_DATA))
 
     # add validators to the pipeline
     ead.add_validator(EmailValidator(EmailValidator.BLACK_LIST, EmailValidator.WHITE_LIST))
@@ -105,11 +121,10 @@ if __name__ == "__main__":
     ead.add_validator(MissingElementValidator())
     ead.add_validator(UserAgentValidator())
     ead.add_validator(NumericElementValidator())
+    ead.add_validator(CountryValidator())
 
     # process the events
     ead.process_pipeline()
 
     # report final tally
     ead.report_results()
-
-    # validators do any additonal reporting
