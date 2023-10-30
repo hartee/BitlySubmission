@@ -81,6 +81,7 @@ class EmailValidator(EventValidator):
                 self.logger.add_alert(f"EmailValidator: missing email. Score +{self.EMAIL_MISSING_SCORE}", self.EMAIL_MISSING_SCORE)
             return
 
+        # check if the domain is in our white/black lists
         email_domain = self.extract_domain(email)
         if email_domain is None:
             if (self.logger):
@@ -90,3 +91,7 @@ class EmailValidator(EventValidator):
         elif email_domain in self.black_list:
             if (self.logger):
                 self.logger.add_alert(f"EmailValidator: email domain ({email_domain}) is blacklisted. Score +{self.EMAIL_DOMAIN_BLACKLIST_SCORE}", self.EMAIL_DOMAIN_BLACKLIST_SCORE)
+
+        if not self.is_valid_email(email):
+            if (self.logger):
+                self.logger.add_alert(f"EmailValidator: malformed email ({email}). Score +{self.EMAIL_MALFORMED_SCORE}", self.EMAIL_MALFORMED_SCORE)
