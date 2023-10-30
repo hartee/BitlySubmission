@@ -83,6 +83,9 @@ class EventAnomalyDetector:
         print("---")
         print("Total events: ", self.total_events)
         print("Total anomalies: ", self.anomalies)
+        print("--")
+        print("Total anomalies by type:")
+        self.logger.display_alerts_by_type()
 
 
 if __name__ == "__main__":
@@ -108,3 +111,5 @@ if __name__ == "__main__":
 
     # report final tally
     ead.report_results()
+
+    # validators do any additonal reporting

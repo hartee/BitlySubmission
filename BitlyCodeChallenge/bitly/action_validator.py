@@ -16,6 +16,7 @@ class ActionValidator(EventValidator):
     # class constants
     ACTION_MISSING_SCORE = 1.0
     ACTION_IS_API_SCORE = 0.1
+    ACTION_ALERT = "Action"
 
     def validate(self, event):
         """
@@ -27,9 +28,9 @@ class ActionValidator(EventValidator):
             action = data['action']
         except KeyError as e:
             if (self.logger):
-                self.logger.add_alert(f"ActionValidator: missing action. Score +{self.ACTION_MISSING_SCORE}", self.ACTION_MISSING_SCORE)
+                self.logger.add_alert_type(self.ACTION_ALERT,f"ActionValidator: missing action. Score +{self.ACTION_MISSING_SCORE}", self.ACTION_MISSING_SCORE)
             return
 
         if action == "sign_up_finish_api":
             if (self.logger):
-                self.logger.add_alert(f"ActionValidator: action ({action}) is suspicious. Score +{self.ACTION_IS_API_SCORE}", self.ACTION_IS_API_SCORE)
+                self.logger.add_alert_type(self.ACTION_ALERT,f"ActionValidator: action ({action}) is suspicious. Score +{self.ACTION_IS_API_SCORE}", self.ACTION_IS_API_SCORE)

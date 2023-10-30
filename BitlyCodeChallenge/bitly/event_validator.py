@@ -11,11 +11,27 @@ class EventLogger():
 
     def __init__(self):
         self.alerts = []
+        self.alert_types = {}
         self.total_events = 0
         self.anomalies = 0
         self.score = 0.0
 
     def add_alert(self,alert,score):
+        self.alerts.append(alert)
+        self.anomalies += 1
+        self.score += score
+
+        alert_type = alert.split(":",maxsplit=1)[0]
+        if alert_type in self.alert_types:
+            self.alert_types[alert_type] += 1
+        else:
+            self.alert_types[alert_type] = 1
+
+    def add_alert_type(self,alert_type,alert,score):
+        if alert_type in self.alert_types:
+            self.alert_types[alert_type] += 1
+        else:
+            self.alert_types[alert_type] = 1
         self.alerts.append(alert)
         self.anomalies += 1
         self.score += score
@@ -29,6 +45,11 @@ class EventLogger():
             for alert in self.alerts:
                 print(alert)
             print()
+
+    def display_alerts_by_type(self):
+        if len(self.alert_types) != 0:
+            for alert, count in self.alert_types.items():
+                print(alert, count)
 
     def clear_alerts(self):
         self.alerts = []
