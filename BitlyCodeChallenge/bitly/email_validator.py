@@ -92,6 +92,7 @@ class EmailValidator(EventValidator):
             if (self.logger):
                 self.logger.add_alert(f"EmailValidator: email domain ({email_domain}) is blacklisted. Score +{self.EMAIL_DOMAIN_BLACKLIST_SCORE}", self.EMAIL_DOMAIN_BLACKLIST_SCORE)
 
+        # is the email properly formed?
         if not self.is_valid_email(email):
             if (self.logger):
                 self.logger.add_alert(f"EmailValidator: malformed email ({email}). Score +{self.EMAIL_MALFORMED_SCORE}", self.EMAIL_MALFORMED_SCORE)
